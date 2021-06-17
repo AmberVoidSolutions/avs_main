@@ -1,0 +1,53 @@
+@import './variables';
+
+.total {
+	padding: 0;
+}
+
+.advertise {
+	border: 1px solid black;
+	text-align: right;
+	font-size: larger;
+	background-color: $darker-colour;
+}
+
+	.advertise:hover {
+		background-color: hsla(0, 0%, 0%, 0.2);
+	}
+
+.languagecontainer {
+	display: inline-block;
+	text-align: center;
+	background-color: $darker-colour;
+	padding: 0;
+	margin: 0.5rem;
+	vertical-align: bottom;
+	border-top: 1px solid hsla(0, 0%, 0%, 0.2);
+}
+
+	.language {
+		vertical-align: bottom;
+		padding: 0;
+		margin-top: 1rem;
+		height: 8rem;
+	} 
+
+	.language .imagecontainer {
+		height: 100px;
+		width: 100px;
+		padding: 0;
+	}
+
+	.language .imagecontainer img {
+		max-height: 100px;
+		height: auto;
+		max-width: 100px;
+		display: inline;
+		vertical-align: middle;
+	}
+
+	.duration {
+		vertical-align: bottom;
+		padding: 0 0 0.5rem 0;
+		background-color: hsla(0, 0%, 0%, 0.2);
+	}

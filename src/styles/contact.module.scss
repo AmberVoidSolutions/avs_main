@@ -1,0 +1,65 @@
+@import "./variables";
+
+.contactform {
+	padding: 1rem;
+	max-width: 70em;
+	background-color: hsla(0, 0%, 0%, 0.1);
+}
+
+.contactform p {
+	padding: 0;
+}
+
+.contactform .error {
+	background-color: hsla(0, 100%, 50%, 0.2);
+	color: darkred;
+}
+.contactform .success {
+	background-color: hsla(180, 100%, 50%, 0.2);
+	color: darkgreen;
+}
+
+.contactform button {
+	border: 1px solid $sub-colour;
+	border-radius: 4px;
+	display: inline-block;
+	background-color: $main-tertiary;
+	padding: 1rem 2rem;
+	cursor: pointer;
+}
+	
+	.contactform button:hover {
+		background-color: $highlight-colour;
+	}
+
+
+.inputform {
+	border-bottom: 1px solid $highlight-colour;
+}
+
+.submitform {
+	text-align: right;
+}
+
+.input {
+	padding: 0;
+	margin: 1rem;
+}
+
+.input label {
+	display: inline-block;
+	min-width: 10em;
+	text-align: right;
+	padding: 0;
+	margin-right: 1rem;
+}
+
+.inputbox {
+	min-width: 70%;
+	font-size: inherit;
+	border: 1px solid $sub-colour;
+	background-color: $highlight-colour;
+	padding: 0px 5px;
+	margin: 0;
+	vertical-align: top;
+}

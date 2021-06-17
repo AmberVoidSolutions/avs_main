@@ -1,0 +1,170 @@
+@import "./variables";
+
+
+.timelineContainer {
+	position: relative;
+}
+
+.timeline {
+	display: block;
+	padding: 0;
+
+	background-color: $darker-colour;
+	overflow-x: auto;
+	overflow-y: auto;
+
+	position: relative;
+	min-height: 500px;
+}
+
+
+
+.event{
+	display: inline-block;
+	width: 250px;
+	height: 160px;
+	text-align: center;
+	padding: 0;
+	position: absolute;
+}
+	
+	.eventText:hover {
+		background-color: $darker-colour;
+	}
+
+	.eventText {
+		width: 100%;
+		position: absolute;
+		margin-left: -1em;
+		cursor: pointer;
+	}
+
+	.eventText.top {
+		bottom: 1rem;
+	}
+
+	.eventText.bottom {
+		top: 1rem;
+	}
+
+	.eventDuration {
+		background-color: hsla(0, 0%, 0%, 0.2);
+		background: linear-gradient(to left, hsla(0, 0%, 0%, 0.3), hsla(0, 0%, 0%, 0.15));
+		border-left: 2px solid black;
+		height: 10px;
+		display: block;
+		position: absolute;
+		padding: 0;
+		margin: 0;
+	}
+
+
+	.year {
+		font-weight: bold;
+		font-size: 1.5rem;
+		position: absolute;
+		border-left: 1px solid black;
+		height: 100%;
+		width: 90px;
+		padding-top: 120px;
+		z-index: 1;
+	}
+
+	.start {
+		
+	}
+
+
+
+.connector {
+	text-align: center;
+	border: 1px solid $main-secondary;
+	width: 1px;
+	display: block;
+	padding: 0;
+	height: 15px;
+	left: 50%;
+	position: absolute;
+}
+
+	.connector.top {
+		bottom: 0;
+	}
+
+	.connector.bottom {
+		top: 0;
+	}
+
+
+
+
+.line {
+	padding: 2px;
+	height: 5px;
+	border: 0px solid black;
+	background-color: $main-secondary;
+	background: linear-gradient(to right, hsla(0, 0%, 0%, 0) 0em, $main-secondary 5em, $main-secondary 95%, hsla(0, 0%, 0%, 0) 100%);
+	
+	position: absolute;
+	top: 160px;
+}
+
+
+.details {
+	border: 1px solid black;
+	padding: 1em;
+	position: absolute;
+	z-index: 2;
+	background-color: $main-tertiary;
+	pointer-events: none;
+
+	
+	min-width: 40%;
+	max-width: 40%;
+	vertical-align: middle;
+}
+	@media (max-device-width: 43em) {
+		.details {
+			min-width: 100%;
+			max-width: 100%;
+		}
+	}
+
+	.details .title {
+		padding: 1em 1em 0.5rem 1em;
+		text-align: center;
+		margin: -1em -1em 0.5rem -1em;
+		font-weight: bold;
+		border-bottom: 1px solid black;
+		background-color: hsla(0, 0%, 0%, 0.2);
+	}
+
+	.details .durationContainer {
+		padding: 0;
+	}
+
+	.details .duration {
+		background-color: black;
+		display: inline-block;
+		height: 10px;
+		width: 50%;
+		padding: 0;
+		margin-right: 1rem;
+	}
+
+	.details .skills {
+		margin-top: 0.5rem;
+		padding: 0.5rem;
+		background-color: hsla(0, 0%, 0%, 0.1);
+	}
+
+	.details .skills span {
+		padding: 0.5rem;
+		font-weight: bold;
+	}
+
+	.details .description {
+		background-color: hsla(0, 0%, 0%, 0.1);
+		margin: 1rem;
+		padding: 0.5rem;
+	}
