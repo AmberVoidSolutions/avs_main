@@ -12,6 +12,9 @@ let events = [	{ year : 2021, duration: 0, title : 'Private Company (Contracted 
 				{ year : 2019, duration: 1, title : 'Tag/Williams-Lea International (Contracted Lead Senior Developer)', skills : [ 'Perl', 'Python', 'React', 'jQuery' ],
 											details : 'Worked for another year to finish previous projects and guide and train up the junior developers.' },
 
+				{ year : 2019, duration: 1, title : 'Pixit Media (Contracted Senior Developer)', skills : [ 'Python' ],
+											details : 'Automated project deployments by writing enhancements to existing in-house production software.' },
+
 				{ year : 2013, duration: 7, title : 'Tag/Williams-Lea International (Senior Developer)', skills : [ 'Perl', 'Python', 'React', 'jQuery' ],
 											details : 'Worked for several years designing and implementing full stack projects, primarily in jQuery and Perl. The codebase later moved to React and Python.' },
 
@@ -28,7 +31,7 @@ let events = [	{ year : 2021, duration: 0, title : 'Private Company (Contracted 
 export default function TimeLine() {
 	return (
 		<>
-			<a href="CV-20210616.pdf">[ Download the latest CV ]</a>
+			<a href="CV-20210621.pdf">[ Download the latest CV ]</a>
 			<Timeline maxYear={ 2021 } events={ events } />
 		</>
 	)

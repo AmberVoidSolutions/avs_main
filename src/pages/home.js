@@ -15,7 +15,7 @@ export default function Home() {
 				</div>
 			</NavLink>
 
-			<p>We have years of academic and real-world experience, in languages and frameworks across the full stack - including:<br /><br />
+			<div>We have years of academic and real-world experience, in languages and frameworks across the full stack - including:<br /><br />
 				<Language name='Perl' logo='perl' experience='10' />
 				<Language name='Python' logo='python' experience='3' />
 				
@@ -31,7 +31,7 @@ export default function Home() {
 				<Language name='React' logo='react' experience='4' />
 				<Language name='Node.JS' logo='nodejs' experience='3' />
 				<Language name='jQuery' logo='jquery' experience='9' />
-			</p>
+			</div>
 		</div>
 	)
 }

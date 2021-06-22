@@ -12,16 +12,15 @@ import styles from '../styles/layout.module.scss'
 import Home from '../pages/home'
 import Timeline from '../pages/timeline'
 import Employees from '../pages/employees'
-//import Settings from '../pages/settings'
 import Contact from '../pages/contact'
+import Demos from '../pages/demos'
 
-const siteTitle = 'AmberVoid Solutions Ltd.'
-const siteMoniker = 'Official home of AmberVoid Solutions - dedicated to helping you design and implement technical solutions.'
 
 let pages = [ { ref : 'home', title : 'Home', content : <Home /> },
 			  { ref : 'timeline', title : 'Timeline', content : <Timeline /> },
 			  { ref : 'employees', title : 'Employees', content : <Employees /> },
-			  //{ ref : 'settings', title : 'Settings', content : <Settings /> },
+			  
+			  { ref : 'demos', title : 'Demos', content : <Demos /> },
 			  { ref : 'contact', title : 'Contact', content : <Contact /> }
 			];
 
@@ -43,28 +42,6 @@ export default class Layout extends Component {
 	render() {
 		return (
 			<div className={ styles.body }>
-				<Helmet>
-					<title>AmberVoid Solutions Ltd.</title>
-
-					<link rel="icon" href="/logoicon.ico" />
-					<meta name="title" content={ siteTitle } />
-					<meta name="description" content={ siteMoniker } />
-
-					<meta property="og:type" content="website" />
-					<meta property="og:url" content="http://ambervoid.co.uk/" />
-					<meta property="og:title" content={ siteTitle } />
-					<meta property="og:description" content={ siteMoniker } />
-					<meta property="og:image" content={ 'images/logo.png' } />
-
-					<meta property="twitter:card" content="summary_large_image" />
-					<meta property="twitter:url" content="http://ambervoid.co.uk/" />
-					<meta property="twitter:title" content={ siteTitle } />
-					<meta property="twitter:description" content={ siteMoniker } />
-					<meta property="twitter:image" content={ 'images/employees/charlie.png' } />
-				</Helmet>
-
-				
-
 				{/* Header */}
 				<Router>
 					<header className={ styles.header }>
@@ -81,6 +58,11 @@ export default class Layout extends Component {
 					{/* Footer */}
 					<footer className={ styles.footer }>
 						Copyright &copy; 2021 Amber Void Solutions Ltd. All rights reserved.
+
+						<br />
+						 <a href="https://www.ecowebhosting.co.uk/" alt="Planting trees every month with Eco Web Hosting" rel="noopener" style={{ padding : 0 }}>
+						 	<img src="https://eco-cdn.co.uk/eco-badge-5.svg" alt="Planting trees every month with Eco Web Hosting" style={{ padding : 0 }} />
+						 </a> 
 					</footer>
 				</Router>
 			</div>
