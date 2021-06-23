@@ -17,9 +17,10 @@ export default class Demo01 extends Component {
 		this.userInput = this.userInput.bind(this)
 		this.renderCall = this.renderCall.bind(this)
 
+		this._frame = 0;
 
-		let boardWidth = 7;
-		let boardHeight = 10;
+		let boardWidth = 20;
+		let boardHeight = 20;
 		let viewportWidth = 5;
 		let viewportHeight = 5;
 		let cellSize = 40;
@@ -31,6 +32,7 @@ export default class Demo01 extends Component {
 						vHeight : viewportHeight,
 						cellSize : cellSize,
 						contents : [],
+						objects : [ { x : 4, y : 4, info : {} }]
 					}
 
 		let character = {	x : { pos : 0, speed : 1, steps : 0 },
@@ -44,8 +46,10 @@ export default class Demo01 extends Component {
 			let contents = []
 			for(let y = 0; y < board.height; y++) {
 				let row = []
+				let coloury = parseInt(Math.abs((board.height / 2) - y))
 				for(let x = 0; x < board.width; x++) {
-					row.push((y < 5 && x < 5) ? 0 : ((y < 6 && x < 6) ? 1 : 2))
+					let colourx = parseInt(Math.abs((board.width / 2) - x))
+					row.push(Math.abs(colourx - coloury))
 				}
 				contents.push(row)
 			}
@@ -86,10 +90,12 @@ export default class Demo01 extends Component {
 	componentDidMount() {
 		if(this.state._timer === null) {
 			this.setState({ _timer : setInterval(() => {
+											this._frame++
 											processGameStep({
 														board : this.state.board,
 														character : this.state.character,
-														context : this.state._canvasContext
+														context : this.state._canvasContext,
+														frame : this._frame
 													}) }, 100)
 							})
 		}
@@ -135,14 +141,13 @@ let Board = props => {
 }
 
 
-
-function processGameStep({ context, board, character }) {
-	calculateBoard(board, character)
-	renderBoard(context, board, character)
+function processGameStep({ context, frame, board, character }) {
+	calculateBoard(board, frame, character)
+	renderBoard(context, frame, board, character)
 }
 
 
-function calculateBoard(board, character) {
+function calculateBoard(board, frame, character) {
 	if(character.x.steps || character.y.steps) {
 		let maxDist = 1 / character.framesPerStep
 
@@ -172,18 +177,19 @@ function calculateBoard(board, character) {
 
 
 
-function renderBoard(ctx, board, character) {
+function renderBoard(ctx, frame, board, character) {
 	let cellSize = board.cellSize
 
+	// No point clearing unless we need to
 	ctx.clearRect(0, 0, 9999, 9999);
 
 	// Put the character midway through the viewport
 		let wHalf = board.vWidth / 2
 		let hHalf = board.vHeight / 2
-		let view = {	left : character.x.pos - wHalf,
-						top : character.y.pos - hHalf,
-						right : character.x.pos + wHalf,
-						bottom : character.y.pos + hHalf,
+		let view = {	left : parseInt(character.x.pos) - wHalf,
+						top : parseInt(character.y.pos) - hHalf,
+						right : parseInt(character.x.pos) + wHalf,
+						bottom : parseInt(character.y.pos) + hHalf,
 						
 						posx : wHalf,
 						posy : hHalf,
@@ -211,18 +217,28 @@ function renderBoard(ctx, board, character) {
 
 
 	// Draw the board
-	
-		let styles = [ '#000000', '#ff0000', '#00ff00', '#ffff00', '#0000ff', '#ff00ff', '#00ffff', '#ffffff' ]
+		let styles = [ '#660000', '#ff0000', '#00ff00', '#ffff00', '#0000ff', '#ff00ff', '#00ffff', '#ffffff' ]
 		for(let y = parseInt(view.top); y < parseInt(view.bottom); y++) {
 			let row = board.contents[parseInt(y)]
 			for(let x = parseInt(view.left); x < parseInt(view.right); x++) {
-				ctx.fillStyle = '#000000'
 				ctx.fillStyle = styles[row[parseInt(x)]]
 				ctx.beginPath()
 				ctx.rect(((x - view.left) * cellSize) + 1, ((y - view.top) * cellSize) + 1, cellSize - 2, cellSize - 2)
 				ctx.fill()
 			}
 		}
+
+	// Draw the objects
+		let withinBounds = (pos, min, max) => { return pos >= min && pos <= max; }
+		board.objects.forEach(object => {
+			if(withinBounds(object.x, view.left, view.right) && withinBounds(object.y, view.top, view.bottom)) {
+				renderObjectA(ctx, frame, { left : ((object.x - view.left) * cellSize) + 5,
+										top : ((object.y - view.top) * cellSize) + 5,
+										width : cellSize - 10,
+										height : cellSize - 10,
+									})
+			}
+		})
 		//*/
 
 	// Draw the character
@@ -236,4 +252,18 @@ function renderBoard(ctx, board, character) {
 		switch(character.direction) { case 'down': offset = 0.5; break; case 'left': offset = 1; break; case 'up': offset = 1.5; break; default: }
 		ctx.arc(posx, posy, radius, (1.5 + offset) * Math.PI, (0.5 + offset) * Math.PI)
 		ctx.fill()
+}
+
+
+
+
+
+function renderObjectA(context, frame, bounds) {
+	let animLength = 20
+	let shrink = (bounds.width / animLength) * (frame % animLength)
+
+	context.fillStyle = '#000000'
+	context.beginPath()
+	context.rect(bounds.left + shrink, bounds.top + shrink, bounds.width - (2 * shrink), bounds.height - (2 * shrink))
+	context.fill()
 }
