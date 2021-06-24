@@ -1,13 +1,11 @@
 import { Component } from 'react'
 
 import { BrowserRouter as Router, Switch, Route, NavLink, Redirect } from "react-router-dom";
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
 import '../styles/globals.scss'
 import styles from '../styles/layout.module.scss'
-
-//import Sunset from './sunset'
 
 import Home from '../pages/home'
 import Timeline from '../pages/timeline'
@@ -24,6 +22,8 @@ let pages = [ { ref : 'home', title : 'Home', content : <Home /> },
 			  { ref : 'contact', title : 'Contact', content : <Contact /> }
 			];
 
+let helmetContext = {};
+
 export default class Layout extends Component {
 	constructor(props) {
 		super(props)
@@ -31,41 +31,35 @@ export default class Layout extends Component {
 		this.state = { cachedTime : this.props.settings ? this.props.settings.time : 0} //(_retrieveData('cachedTime') || 0) }
 	}
 
-	static getDerivedStateFromProps(props, state) {
-		if(props.settings && props.settings.time) {
-			//_storeData( 'cachedTime', props.setting.time )
-			return { cachedTime : props.settings.time }
-		}
-		return null;
-	}
-
 	render() {
 		return (
-			<div className={ styles.body }>
-				{/* Header */}
-				<Router>
-					<header className={ styles.header }>
-						<img className={ styles.companylogo } src={ 'images/logo.png' } alt="Logo" />
-						<div className={ styles.companyname }>AmberVoid<span className={ styles.solutions }>Solutions</span> Ltd.</div>
+			<HelmetProvider context={ helmetContext }>
+				<div className={ styles.body }>
+					{/* Header */}
+					<Router>
+						<header className={ styles.header }>
+							<img className={ styles.companylogo } src={ 'images/logo.png' } alt="Logo" />
+							<div className={ styles.companyname }>AmberVoid<span className={ styles.solutions }>Solutions</span> Ltd.</div>
 
-						<Menu entries={ pages } />
-					</header>
+							<Menu entries={ pages } />
+						</header>
 
-					{/* Main */}
-					<Article entries={ pages } />
+						{/* Main */}
+						<Article entries={ pages } />
 
 
-					{/* Footer */}
-					<footer className={ styles.footer }>
-						Copyright &copy; 2021 Amber Void Solutions Ltd. All rights reserved.
+						{/* Footer */}
+						<footer className={ styles.footer }>
+							Copyright &copy; 2021 Amber Void Solutions Ltd. All rights reserved.
 
-						<br />
-						 <a href="https://www.ecowebhosting.co.uk/" alt="Planting trees every month with Eco Web Hosting" rel="noopener" style={{ padding : 0 }}>
-						 	<img src="https://eco-cdn.co.uk/eco-badge-5.svg" alt="Planting trees every month with Eco Web Hosting" style={{ padding : 0 }} />
-						 </a> 
-					</footer>
-				</Router>
-			</div>
+							<br />
+							 <a href="https://www.ecowebhosting.co.uk/" alt="Planting trees every month with Eco Web Hosting" rel="noopener" style={{ padding : 0 }}>
+							 	<img src="https://eco-cdn.co.uk/eco-badge-5.svg" alt="Planting trees every month with Eco Web Hosting" style={{ padding : 0 }} />
+							 </a> 
+						</footer>
+					</Router>
+				</div>
+			</HelmetProvider>
 		)
 	}
 }
