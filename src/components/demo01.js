@@ -66,7 +66,19 @@ export default class Demo01 extends Component {
 							y : { pos : 0, speed : 1, steps : 0 },
 							direction : 'up',
 							framesPerStep : 2,
-							child : null
+							child : null,
+							state : 'default',
+							graphics : { default : {	left : [ 12 ],
+														up : [ 10, 14 ],
+														right : [ 13 ],
+														down : [ 11 ],
+													},
+											holding : {	left : [ 8 ],
+														up : [ 6 ],
+														right : [ 9 ],
+														down : [ 7 ],
+													}
+										}
 						}
 
 
@@ -123,12 +135,14 @@ export default class Demo01 extends Component {
 
 						if((object.x === character.x.pos + xOffset) && (object.y === character.y.pos + yOffset)) {
 							character.child = object
+							character.state = 'holding'
 							break;
 						}
 					}
 				} else {
 					// Drop the object
 					character.child = null;
+					character.state = 'default'
 				}
 				break;
 
@@ -348,6 +362,8 @@ function renderBoard(ctx, frame, objects, board, character) {
 		for(let y = parseInt(view.top); y < parseInt(view.bottom); y++) {
 			let row = board.contents[parseInt(y)]
 			for(let x = parseInt(view.left); x < parseInt(view.right); x++) {
+				if(!row[parseInt(x)]) continue;
+
 				renderObject(	ctx,
 								frame,
 								{	left : ((x - view.left) * cellSize) + 1,
@@ -381,16 +397,26 @@ function renderBoard(ctx, frame, objects, board, character) {
 		})
 
 	// Draw the character
-		let posx = (view.posx * cellSize) + (cellSize / 2)
-		let posy = (view.posy * cellSize) + (cellSize / 2)
+		let posx = (view.posx * cellSize)
+		let posy = (view.posy * cellSize)
 		let radius = cellSize / 2
 
+		renderObject(	ctx,
+						frame,
+						{ left : posx, top : posy, width : cellSize, height : cellSize },
+						null,
+						{ type : 'sprite', animations : [ 'cycle' ], indices : character.graphics[character.state][character.direction] },
+						board
+					)
+
+/*
 		ctx.fillStyle = '#ffffff'
 		ctx.beginPath()
 		let offset = 0;
 		switch(character.direction) { case 'down': offset = 0.5; break; case 'left': offset = 1; break; case 'up': offset = 1.5; break; default: }
 		ctx.arc(posx, posy, radius, (1.5 + offset) * Math.PI, (0.5 + offset) * Math.PI)
 		ctx.fill()
+		*/
 }
 
 
@@ -448,7 +474,6 @@ function renderObject(context, frame, bounds, object, graphic, board) {
 		default:
 			context.fillStyle = graphic.colour
 			context.beginPath()
-			//context.rect(bounds.left + shrink, bounds.top + shrink, bounds.width - (2 * shrink), bounds.height - (2 * shrink))
 			context.rect(destRect.left, destRect.top, destRect.width, destRect.height)
 			context.fill()
 	}
