@@ -64,6 +64,7 @@ export default class Demo01 extends Component {
 
 		let character = {	x : { pos : 0, speed : 1, steps : 0 },
 							y : { pos : 0, speed : 1, steps : 0 },
+							prevDirection : 'up',
 							direction : 'up',
 							framesPerStep : 2,
 							child : null,
@@ -117,6 +118,7 @@ export default class Demo01 extends Component {
 		let setDir = (char, dir, stepsx, stepsy) => {
 			char.x.steps = stepsx; if(stepsy) char.x.pos = parseInt(char.x.pos)
 			char.y.steps = stepsy; if(stepsx) char.y.pos = parseInt(char.y.pos)
+			char.prevDirection = char.direction
 			char.direction = dir
 		}
 
@@ -198,8 +200,8 @@ export default class Demo01 extends Component {
 					<div>Position: { this.state.character.x.pos }, { this.state.character.y.pos }</div>
 					<div>Has child? { this.state.character.child ? 'Yes' : 'No' }</div>
 
-					<Board width={ this.state.board.width * this.state.board.cellSize }
-							height={ this.state.board.height * this.state.board.cellSize }
+					<Board width={ this.state.board.vWidth * this.state.board.cellSize }
+							height={ this.state.board.vHeight * this.state.board.cellSize }
 							renderCallback={ this.renderCall }
 							keyboardCallback={ this.userInput }
 							/>
@@ -304,6 +306,12 @@ function calculateBoard(frame, objects, board, character) {
 				newY = parseInt(character.y.pos)
 				character.y.steps = 0
 				character.x.steps = 0
+
+				// Prevent changing direction if we're holding something
+				if(childSize) {
+					character.direction = character.prevDirection
+					character.prevDirection = 'up'
+				}
 				break;
 			}
 		}
