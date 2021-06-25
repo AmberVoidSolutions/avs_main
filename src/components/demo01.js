@@ -32,16 +32,16 @@ export default class Demo01 extends Component {
 
 		this._frame = 0;
 
-		let boardWidth = 10;
-		let boardHeight = 10;
-		let viewportWidth = 5;
-		let viewportHeight = 5;
+		let boardWidth = 80;
+		let boardHeight = 80;
+		let viewportWidth = 10;
+		let viewportHeight = 10;
 		let cellSize = 40;
 
-		let objects = {	'ground' :	{ physics : { type : 'none', canInterract : false, canStack : true }, graphic : { type : 'sprite', indices : [ 0 ], animations : [ 'bounce' ] } },
-						'water' :	{ physics : { type : 'block', canInterract : false, canStack : true }, graphic : { type : 'sprite', indices : [ 3 ], animations : [ 'throb' ] } },
-						'sand' :	{ physics : { type : 'block', canInterract : false, canStack : true }, graphic : { type : 'sprite', indices : [ 1 ], animations : [ 'bounce' ] } },
-						'wall' :	{ physics : { type : 'block', canInterract : false, canStack : false }, graphic : { type : 'sprite', indices : [ 2 ] } },
+		let objects = {	'ground' :	{ physics : { type : 'none', canInterract : false, canStack : true }, graphic : { type : 'sprite', indices : [ 0, 1, 2 ], animations : [ 'cycle' ] } },
+						'water' :	{ physics : { type : 'block', canInterract : false, canStack : true }, graphic : { type : 'sprite', indices : [ 5 ], animations : [ 'throb' ] } },
+						'sand' :	{ physics : { type : 'block', canInterract : false, canStack : true }, graphic : { type : 'sprite', indices : [ 3 ], animations : [ 'bounce' ] } },
+						'wall' :	{ physics : { type : 'block', canInterract : false, canStack : false }, graphic : { type : 'sprite', indices : [ 4 ] } },
 						'blue' :	{ physics : { type : 'block', canInterract : false, canStack : true }, graphic : { type : 'block', colour : '#0000FF' } },
 					  }
 
@@ -75,7 +75,7 @@ export default class Demo01 extends Component {
 			for(let y = 0; y < board.height; y++) {
 				let row = []
 				for(let x = 0; x < board.width; x++) {
-					row.push('blue')
+					row.push('ground')
 				}
 				contents.push(row)
 			}
@@ -103,8 +103,8 @@ export default class Demo01 extends Component {
 
 
 		let setDir = (char, dir, stepsx, stepsy) => {
-			char.x.steps = stepsx; char.x.pos = parseInt(char.x.pos)
-			char.y.steps = stepsy; char.y.pos = parseInt(char.y.pos)
+			char.x.steps = stepsx; if(stepsy) char.x.pos = parseInt(char.x.pos)
+			char.y.steps = stepsy; if(stepsx) char.y.pos = parseInt(char.y.pos)
 			char.direction = dir
 		}
 
@@ -400,35 +400,42 @@ function renderBoard(ctx, frame, objects, board, character) {
 function renderObject(context, frame, bounds, object, graphic, board) {
 	let sSheet = board.spritesheet;
 
+	let spriteIndex = 0
 	let destRect = {	left : bounds.left,
 						top : bounds.top,
 						width : bounds.width,
 						height : bounds.height
 					}
 
-	if(graphic.animations && graphic.animations.includes('throb')) {
-		let animLength = 20
-		let shrink = (bounds.width / animLength) * (frame % animLength)
-		destRect.left += shrink
-		destRect.top += shrink
-		destRect.width -= shrink * 2
-		destRect.height -= shrink * 2
-	}
+	if(graphic.animations) {
+		if(graphic.animations.includes('throb')) {
+			let animLength = 20
+			let shrink = (bounds.width / animLength) * (frame % animLength)
+			destRect.left += shrink
+			destRect.top += shrink
+			destRect.width -= shrink * 2
+			destRect.height -= shrink * 2
+		}
 
-	if(graphic.animations && graphic.animations.includes('bounce')) {
-		let animLength = 5
-		let hh = bounds.height / 2
+		if(graphic.animations.includes('bounce')) {
+			let animLength = 5
+			let hh = bounds.height / 2
 
-		let shrink = (hh / animLength) * Math.abs((frame % (animLength * 2)) - animLength)
-		destRect.top = (destRect.top + hh) - shrink
-		destRect.height = (destRect.height - hh)
+			let shrink = (hh / animLength) * Math.abs((frame % (animLength * 2)) - animLength)
+			destRect.top = (destRect.top + hh) - shrink
+			destRect.height = (destRect.height - hh)
+		}
+
+		if(graphic.animations.includes('cycle') && graphic.indices.length) {
+			let animLength = 20
+			spriteIndex = parseInt(((graphic.indices.length) / animLength) * (frame % animLength))
+		}
 	}
 
 	switch(graphic.type) {
 		case 'sprite':
 			if(!sSheet.image) break;
 
-			let spriteIndex = 0
 			let srcRect = {	left : (graphic.indices[spriteIndex] % sSheet.width) * sSheet.cellWidth,
 							top : parseInt(graphic.indices[spriteIndex] / sSheet.width) * sSheet.cellHeight,
 							width : sSheet.cellWidth,
