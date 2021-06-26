@@ -6,7 +6,7 @@ import Language from '../components/home'
 
 export default function Home() {
 	return (
-		<div className={ styles.total }>
+		<div>
 			<p>Welcome to the homepage of AmberVoid Solutions Ltd., a company dedicated to helping you design and implement technical solutions!</p>
 
 			<NavLink  to='/contact'>
@@ -32,6 +32,11 @@ export default function Home() {
 				<Language name='Node.JS' logo='nodejs' experience='3' />
 				<Language name='jQuery' logo='jquery' experience='9' />
 			</div>
+
+			<p>This website was written by hand from the ground up in React, with plain Javascript and NodeJS used in the <NavLink className={ styles.inline } to='/demos'>Demos</NavLink> - and some Perl just for seasoning!</p>
+			<a className={ styles.advertise } href="https://github.com/AmberVoidSolutions/avs_main" target="_blank">
+				The code is available to view on GitHub - check it out now!
+			</a>
 		</div>
 	)
 }

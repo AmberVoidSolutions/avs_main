@@ -1,10 +1,11 @@
 @import './variables';
 
-.total {
+.inline {
 	padding: 0;
 }
 
 .advertise {
+	display: block;
 	border: 1px solid black;
 	text-align: right;
 	font-size: larger;
