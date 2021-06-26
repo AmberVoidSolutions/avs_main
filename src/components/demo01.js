@@ -195,10 +195,7 @@ export default class Demo01 extends Component {
 
 	render() {
 		return (<>
-					<h3>Demo 01</h3>
-
-					<div>Position: { this.state.character.x.pos }, { this.state.character.y.pos }</div>
-					<div>Has child? { this.state.character.child ? 'Yes' : 'No' }</div>
+					<h3>Litter Picker</h3>
 
 					<Board width={ this.state.board.vWidth * this.state.board.cellSize }
 							height={ this.state.board.vHeight * this.state.board.cellSize }
